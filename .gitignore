@@ -1,0 +1,7 @@
+/likeme/node_modules
+/likeme/package-lock.json
+/likeme/.env
+
+/servidorLikeme/node_modules
+/servidorLikeme/package-lock.json
+/servidorLikeme/.env

@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  likeme:
+    build: 
+      context: ./likeme
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
+    depends_on:
+      - servidorlikeme
+
+  servidorlikeme:
+    build:
+      context: ./servidorLikeme
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: likeme-db
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+      DB_NAME: likeme
+      DB_USER: postgres
+    ports:
+      - "3001:3001"
+    depends_on:
+      - likeme-db
+
+  likeme-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: likeme
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
